@@ -1,0 +1,20 @@
+{
+  "name": "newnode",
+  "version": "1.0.0",
+  "description": "this is  day two of learning backernd",
+  "homepage": "https://github.com/the0jhaji/Backend#readme",
+  "bugs": {
+    "url": "https://github.com/the0jhaji/Backend/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/the0jhaji/Backend.git"
+  },
+  "license": "ISC",
+  "author": "Adarsh",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
