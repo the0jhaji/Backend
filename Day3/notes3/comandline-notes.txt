@@ -1,0 +1,226 @@
+# Getting Input from CMD (Command Line) in Node.js
+
+## What is getting input from CMD?
+
+**CMD input** means passing values to your Node.js program when you run it from the terminal, instead of hardcoding those values in your code.
+
+Node.js stores these command-line arguments in an array called:
+
+```javascript
+process.argv
+```
+
+* `process` → A global Node.js object.
+* `argv` → Stands for **argument vector**, which contains the command-line arguments.
+
+---
+
+# Syntax
+
+```javascript
+const args = process.argv;
+
+console.log(args);
+```
+
+If you run:
+
+```bash
+node app.js hello 123
+```
+
+Output:
+
+```javascript
+[
+  '/usr/bin/node',
+  '/path/to/app.js',
+  'hello',
+  '123'
+]
+```
+
+Explanation:
+
+* `args[0]` → Path of the Node.js executable
+* `args[1]` → Path of your JavaScript file
+* `args[2]` → First user input (`hello`)
+* `args[3]` → Second user input (`123`)
+
+---
+
+# Code Example
+
+```javascript
+const args = process.argv;
+
+console.log("Name:", args[2]);
+console.log("Age:", args[3]);
+```
+
+Run:
+
+```bash
+node app.js Adarsh 22
+```
+
+Output:
+
+```text
+Name: Adarsh
+Age: 22
+```
+
+---
+
+# Example: Starting a Server on a Custom Port
+
+```javascript
+const http = require("http");
+
+const port = process.argv[2] || 3000;
+
+http.createServer((req, res) => {
+    res.end("Server Running");
+}).listen(port);
+
+console.log(`Server running at http://localhost:${port}`);
+```
+
+Run:
+
+```bash
+node server.js 5000
+```
+
+The server starts on **port 5000**.
+
+---
+
+# Real-World Use Cases
+
+* **Custom server port**
+
+  ```bash
+  node server.js 8080
+  ```
+
+* **File operations**
+
+  ```bash
+  node app.js notes.txt
+  ```
+
+* **Calculator**
+
+  ```bash
+  node calculator.js 10 + 20
+  ```
+
+* **Passing configuration**
+
+  ```bash
+  node app.js development
+  ```
+
+* **Automation scripts**
+
+  ```bash
+  node backup.js July
+  ```
+
+---
+
+# Advantages
+
+* No need to modify the code for different inputs.
+* Makes scripts flexible and reusable.
+* Useful for automation and deployment.
+* Commonly used in CLI (Command Line Interface) tools.
+
+---
+
+# Common Mistakes
+
+❌ Wrong:
+
+```javascript
+const port = process.argv[1];
+```
+
+This gives the file path, **not** the first user input.
+
+✅ Correct:
+
+```javascript
+const port = process.argv[2];
+```
+
+---
+
+# Interview Questions
+
+### 1. What is `process.argv` in Node.js?
+
+**Answer:** `process.argv` is an array that contains the command-line arguments passed when running a Node.js program.
+
+---
+
+### 2. What does `argv` stand for?
+
+**Answer:** **Argument Vector**.
+
+---
+
+### 3. Why is `process` called a global object?
+
+**Answer:** Because it is available everywhere in a Node.js application without importing any module.
+
+---
+
+### 4. Where does user input start in `process.argv`?
+
+**Answer:** At index **2**.
+
+---
+
+### 5. Why do we use command-line arguments?
+
+**Answer:** To make applications dynamic by accepting input at runtime instead of hardcoding values.
+
+---
+
+### 6. Can command-line arguments only be strings?
+
+**Answer:** Yes. All values in `process.argv` are received as strings. If you need numbers, convert them using `Number()` or `parseInt()`.
+
+Example:
+
+```javascript
+const a = Number(process.argv[2]);
+const b = Number(process.argv[3]);
+
+console.log(a + b);
+```
+
+Run:
+
+```bash
+node app.js 10 20
+```
+
+Output:
+
+```text
+30
+```
+
+---
+
+## Quick Revision
+
+* `process.argv` stores command-line arguments.
+* User input starts from **index 2**.
+* All arguments are received as **strings**.
+* Useful for custom ports, file names, scripts, and CLI applications.
+* Convert numeric inputs using `Number()` or `parseInt()`.

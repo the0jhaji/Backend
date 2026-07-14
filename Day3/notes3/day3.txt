@@ -1,0 +1,346 @@
+# Static API Data in Node.js
+## What is Static API Data?
+
+**Static API data** is predefined data stored directly in your code. It doesn't come from a database or user input.
+
+Example:
+
+* Student information
+* Product list
+* Employee details
+* Company information
+
+The server sends the same data every time someone requests it.
+
+---
+
+## Why do we use Static Data?
+
+* Learn API development
+* Test frontend applications
+* Understand JSON responses
+* Practice before connecting a database
+
+---
+
+# Creating a Static API
+
+### Step 1: Create a server
+
+```javascript
+const http = require("http");
+```
+
+---
+
+### Step 2: Define Static Data
+
+```javascript
+const users = [
+    {
+        id: 1,
+        name: "Adarsh",
+        age: 22
+    },
+    {
+        id: 2,
+        name: "Rahul",
+        age: 21
+    },
+    {
+        id: 3,
+        name: "Aman",
+        age: 23
+    }
+];
+```
+
+This is your static data.
+
+---
+
+### Step 3: Send Data as API Response
+
+```javascript
+const http = require("http");
+
+const users = [
+    {
+        id: 1,
+        name: "Adarsh",
+        age: 22
+    },
+    {
+        id: 2,
+        name: "Rahul",
+        age: 21
+    },
+    {
+        id: 3,
+        name: "Aman",
+        age: 23
+    }
+];
+
+http.createServer((req, res) => {
+
+    res.writeHead(200, {
+        "Content-Type": "application/json"
+    });
+
+    res.end(JSON.stringify(users));
+
+}).listen(5000);
+
+console.log("Server running on port 5000");
+```
+
+---
+
+# Why use `JSON.stringify()`?
+
+The response must be sent as a **string**.
+
+JavaScript Object
+
+```javascript
+{
+    name: "Adarsh"
+}
+```
+
+JSON String
+
+```json
+{"name":"Adarsh"}
+```
+
+`JSON.stringify()` converts a JavaScript object into a JSON string.
+
+---
+
+# API Output
+
+Open
+
+```
+http://localhost:5000
+```
+
+Output
+
+```json
+[
+  {
+    "id":1,
+    "name":"Adarsh",
+    "age":22
+  },
+  {
+    "id":2,
+    "name":"Rahul",
+    "age":21
+  },
+  {
+    "id":3,
+    "name":"Aman",
+    "age":23
+  }
+]
+```
+
+---
+
+# API Structure
+
+Client Request
+
+```
+Browser / Thunder Client
+        │
+        ▼
+Node.js Server
+        │
+        ▼
+Static Data (Array/Object)
+        │
+        ▼
+JSON Response
+```
+
+---
+
+# Testing API using Thunder Client
+
+## Step 1
+
+Install **Thunder Client** extension in VS Code.
+
+---
+
+## Step 2
+
+Click the Thunder Client icon.
+
+---
+
+## Step 3
+
+Click **New Request**.
+
+---
+
+## Step 4
+
+Select method:
+
+```
+GET
+```
+
+---
+
+## Step 5
+
+Enter URL
+
+```
+http://localhost:5000
+```
+
+---
+
+## Step 6
+
+Click **Send**
+
+You'll receive:
+
+```json
+[
+  {
+    "id":1,
+    "name":"Adarsh",
+    "age":22
+  },
+  {
+    "id":2,
+    "name":"Rahul",
+    "age":21
+  }
+]
+```
+
+---
+
+# Browser vs Thunder Client
+
+| Browser             | Thunder Client                  |
+| ------------------- | ------------------------------- |
+| Can send GET easily | Supports GET, POST, PUT, DELETE |
+| Basic testing       | Professional API testing        |
+| Limited features    | Headers, Body, Auth, Cookies    |
+| Used by everyone    | Used by backend developers      |
+
+---
+
+# Real-World Example
+
+Imagine a shopping app.
+
+```
+GET /products
+```
+
+Response
+
+```json
+[
+    {
+        "id":1,
+        "name":"Laptop",
+        "price":55000
+    },
+    {
+        "id":2,
+        "name":"Keyboard",
+        "price":1200
+    }
+]
+```
+
+The frontend requests the product list, and the backend returns it as JSON.
+
+---
+
+# Common Mistakes
+
+❌ Forgetting `JSON.stringify()`
+
+```javascript
+res.end(users);
+```
+
+✅ Correct
+
+```javascript
+res.end(JSON.stringify(users));
+```
+
+---
+
+❌ Wrong Content-Type
+
+```javascript
+"text/html"
+```
+
+✅ Correct
+
+```javascript
+"application/json"
+```
+
+---
+
+# Interview Questions
+
+### 1. What is static API data?
+
+**Answer:** Static API data is predefined data stored in the server code and returned without fetching it from a database.
+
+### 2. Why do we use JSON in APIs?
+
+**Answer:** JSON is lightweight, easy to read, language-independent, and widely used for exchanging data between the client and server.
+
+### 3. Why is `JSON.stringify()` required?
+
+**Answer:** It converts JavaScript objects or arrays into JSON strings so they can be sent in the HTTP response.
+
+### 4. What is the Content-Type for JSON?
+
+**Answer:**
+
+```
+application/json
+```
+
+### 5. What is Thunder Client?
+
+**Answer:** Thunder Client is a VS Code extension used to test REST APIs by sending HTTP requests like GET, POST, PUT, and DELETE without leaving the editor.
+
+### 6. What HTTP method is commonly used to fetch data?
+
+**Answer:** `GET`
+
+---
+
+### Quick Revision
+
+* Static API data = predefined data in code.
+* Use `application/json` as the response type.
+* Convert objects/arrays using `JSON.stringify()`.
+* Test APIs using Thunder Client.
+* `GET` is used to fetch data from the server.
+
+This is the foundation of REST APIs. After this, the next topics you'll typically learn are **routing**, **dynamic APIs**, **serving JSON files**, and then **Express.js**.
