@@ -1,6 +1,6 @@
 const http = require('http');
 const fs = require('fs');
-
+const queryString=require('querystring')
 http.createServer((req, res) => {
 
     fs.readFile('html/form2.html', 'utf-8', (error, data) => {
@@ -28,11 +28,16 @@ http.createServer((req, res) => {
             req.on('end', () => {
 
                 let rawData = Buffer.concat(dataBody).toString();
-
+                let readableData=queryString.parse(rawData);
                 console.log(rawData);
-
                 res.writeHead(200, { "Content-Type": "text/html" });
-                res.end("<h1>Data Submitted Successfully</h1>");
+                res.write(`
+                    <h2>Name: ${readableData.name}</h2>
+                    <h2>Email: ${readableData.email}</h2>
+                    <h2>Password: ${readableData.password}</h2>
+                `);
+                res.end("<h1>Data Submitted Successfully</h1>");                res.end("<h1>Data Submitted Successfully</h1>");
+
             });
 
         }
