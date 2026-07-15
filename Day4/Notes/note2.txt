@@ -1,0 +1,245 @@
+Since you're learning **Node.js backend**, here's complete notes with code.
+
+# 1. Make HTML Form in JS File
+
+Instead of using a separate HTML file, send the HTML directly from the server.
+
+**server.js**
+
+```javascript
+const http = require('http');
+
+http.createServer((req, res) => {
+    res.writeHead(200, { "Content-Type": "text/html" });
+
+    res.write(`
+        <!DOCTYPE html>
+        <html>
+        <body>
+            <h2>User Form</h2>
+
+            <form action="/submit" method="POST">
+                <input type="text" name="username" placeholder="Enter Name"><br><br>
+                <input type="email" name="email" placeholder="Enter Email"><br><br>
+                <button type="submit">Submit</button>
+            </form>
+        </body>
+        </html>
+    `);
+
+    res.end();
+}).listen(3000);
+
+console.log("Server running on http://localhost:3000");
+```
+
+---
+
+# 2. Submit Form with POST Request
+
+Handle the POST request and receive form data.
+
+```javascript
+const http = require('http');
+
+http.createServer((req, res) => {
+
+    if (req.method === "POST" && req.url === "/submit") {
+
+        let body = "";
+
+        req.on("data", chunk => {
+            body += chunk;
+        });
+
+        req.on("end", () => {
+            console.log(body);
+
+            res.writeHead(200, { "Content-Type": "text/plain" });
+            res.end("Form Submitted Successfully");
+        });
+
+    } else {
+
+        res.writeHead(200, { "Content-Type": "text/html" });
+
+        res.end(`
+            <form action="/submit" method="POST">
+                <input type="text" name="username">
+                <button type="submit">Submit</button>
+            </form>
+        `);
+    }
+
+}).listen(3000);
+```
+
+---
+
+# 3. Test Flow
+
+1. Run server.
+2. Open **[http://localhost:3000](http://localhost:3000)**
+3. Fill the form.
+4. Click **Submit**.
+5. Browser sends a **POST** request.
+6. Server receives the data.
+7. Data is displayed in the terminal.
+8. Browser shows **Form Submitted Successfully**.
+
+Example terminal output:
+
+```
+username=Adarsh&email=adarsh@gmail.com
+```
+
+---
+
+# 4. Make Form with HTML File
+
+**form.html**
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Form</title>
+</head>
+<body>
+
+<h2>User Registration</h2>
+
+<form action="/submit" method="POST">
+    <input type="text" name="username" placeholder="Name"><br><br>
+    <input type="email" name="email" placeholder="Email"><br><br>
+
+    <button type="submit">Submit</button>
+</form>
+
+</body>
+</html>
+```
+
+---
+
+# 5. Load HTML File Using FS Module
+
+```javascript
+const http = require('http');
+const fs = require('fs');
+
+http.createServer((req, res) => {
+
+    if(req.url === "/"){
+
+        fs.readFile("form.html","utf-8",(err,data)=>{
+
+            if(err){
+                res.writeHead(500,{"Content-Type":"text/plain"});
+                res.end("Internal Server Error");
+                return;
+            }
+
+            res.writeHead(200,{"Content-Type":"text/html"});
+            res.end(data);
+
+        });
+
+    }else if(req.method==="POST" && req.url==="/submit"){
+
+        let body="";
+
+        req.on("data",(chunk)=>{
+            body+=chunk;
+        });
+
+        req.on("end",()=>{
+
+            console.log(body);
+
+            res.writeHead(200,{"Content-Type":"text/plain"});
+            res.end("Form Submitted Successfully");
+
+        });
+
+    }
+
+}).listen(3000);
+
+console.log("Server running on http://localhost:3000");
+```
+
+---
+
+# 6. Check Output
+
+* Visit **[http://localhost:3000](http://localhost:3000)**
+* HTML form opens.
+* Enter data.
+* Click **Submit**.
+* Terminal:
+
+```
+username=Adarsh&email=adarsh@gmail.com
+```
+
+* Browser:
+
+```
+Form Submitted Successfully
+```
+
+---
+
+# Why Use a Separate HTML File?
+
+* Cleaner code
+* Easy to maintain
+* Designers can edit HTML without touching server code
+* Reusable pages
+* Better project structure
+
+---
+
+# Interview Questions
+
+1. **What is the difference between GET and POST?**
+
+   * GET retrieves data.
+   * POST sends data to the server.
+
+2. **Why do we use the POST method for forms?**
+
+   * It sends data securely in the request body and supports larger payloads.
+
+3. **What is `req.on('data')`?**
+
+   * It receives chunks of incoming request data.
+
+4. **Why do we use `req.on('end')`?**
+
+   * It indicates that the entire request body has been received.
+
+5. **Why use the `fs` module to load HTML?**
+
+   * To serve external HTML files instead of embedding HTML in JavaScript.
+
+6. **What is the `action` attribute in a form?**
+
+   * It specifies the URL where the form data will be sent.
+
+7. **What is the `method` attribute in a form?**
+
+   * It defines the HTTP method (`GET` or `POST`) used to submit the form.
+
+8. **Why set `Content-Type: text/html`?**
+
+   * So the browser knows the response contains HTML and renders it correctly.
+
+9. **What is the request body?**
+
+   * The part of an HTTP request that contains the data sent by the client (commonly with POST requests).
+
+10. **How do you test a POST form in Node.js?**
+
+    * Start the server, open the form in a browser, submit it, and verify the terminal output and browser response.

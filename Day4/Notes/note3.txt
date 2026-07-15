@@ -1,0 +1,154 @@
+# Get Data from Request (Node.js)
+
+When a client sends data using a **POST** request, Node.js receives it as a **stream**. The data arrives in small pieces called **chunks**, so you need to collect all the chunks before using the data.
+
+### Example
+
+```javascript
+const http = require('http');
+
+http.createServer((req, res) => {
+
+    if (req.method === "POST") {
+
+        let body = "";
+
+        req.on("data", (chunk) => {
+            body += chunk;
+        });
+
+        req.on("end", () => {
+            console.log(body);
+
+            res.end("Data Received");
+        });
+
+    } else {
+        res.end("Send a POST request");
+    }
+
+}).listen(3000);
+
+console.log("Server running on http://localhost:3000");
+```
+
+---
+
+# Handle Data with Buffer Class
+
+The `chunk` received in the `"data"` event is a **Buffer** object.
+
+A **Buffer** is a temporary memory area used by Node.js to store **binary data**.
+
+Example:
+
+```javascript
+req.on("data", (chunk) => {
+    console.log(chunk); // Buffer
+});
+```
+
+Output:
+
+```text
+<Buffer 75 73 65 72 6e 61 6d 65 3d 41 64 61 72 73 68>
+```
+
+---
+
+# Make Request Data Readable
+
+Convert the Buffer into a string using `.toString()`.
+
+```javascript
+req.on("data", (chunk) => {
+    console.log(chunk.toString());
+});
+```
+
+Output:
+
+```text
+username=Adarsh&email=adarsh@gmail.com
+```
+
+You can also combine multiple chunks:
+
+```javascript
+let body = "";
+
+req.on("data", (chunk) => {
+    body += chunk.toString();
+});
+
+req.on("end", () => {
+    console.log(body);
+});
+```
+
+---
+
+# Request Data Flow
+
+```text
+Client submits form
+        │
+        ▼
+HTTP POST Request
+        │
+        ▼
+Node.js receives data in chunks (Buffer)
+        │
+        ▼
+Convert Buffer → String
+        │
+        ▼
+Combine all chunks
+        │
+        ▼
+Use the complete data
+```
+
+---
+
+# Interview Questions
+
+### 1. What is a Buffer in Node.js?
+
+A Buffer is a built-in Node.js class used to store and manipulate binary data.
+
+### 2. Why does Node.js receive request data in chunks?
+
+Because Node.js uses streams, which makes it efficient for handling large amounts of data without loading everything into memory at once.
+
+### 3. What does `req.on('data')` do?
+
+It listens for incoming data chunks from the request stream.
+
+### 4. What does `req.on('end')` do?
+
+It is called after all the request data has been received.
+
+### 5. Why do we use `chunk.toString()`?
+
+To convert the Buffer into a human-readable string.
+
+### 6. Can a POST request contain multiple chunks?
+
+Yes. Large request bodies are often split into multiple chunks.
+
+### 7. Why do we initialize `let body = ""`?
+
+To accumulate all the chunks into one complete string.
+
+### 8. Is `req` a stream?
+
+Yes. The `req` (IncomingMessage) object is a **readable stream** in Node.js.
+
+### 9. What happens if you don't wait for the `"end"` event?
+
+You may process incomplete data because not all chunks have been received yet.
+
+### 10. Where is the request body stored?
+
+The request body is **not stored automatically** by Node.js. You must collect the chunks yourself (or use middleware like `express.json()` in Express).

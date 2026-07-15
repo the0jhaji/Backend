@@ -1,0 +1,170 @@
+# What is Synchronous Programming?
+
+**Synchronous programming** means tasks are executed **one after another**. The next task starts only after the current task finishes.
+
+### Example
+
+```javascript
+console.log("Start");
+
+console.log("Learning Node.js");
+
+console.log("End");
+```
+
+### Output
+
+```
+Start
+Learning Node.js
+End
+```
+
+Here, each line waits for the previous one to complete.
+
+---
+
+# What is Asynchronous Programming?
+
+**Asynchronous programming** allows multiple tasks to run without waiting for one another. Time-consuming tasks (like reading a file or making an API call) run in the background.
+
+### Example
+
+```javascript
+console.log("Start");
+
+setTimeout(() => {
+    console.log("Learning Node.js");
+}, 2000);
+
+console.log("End");
+```
+
+### Output
+
+```
+Start
+End
+Learning Node.js
+```
+
+The program doesn't wait 2 seconds before printing `"End"`.
+
+---
+
+# Blocking vs Non-Blocking Code
+
+| Blocking Code                | Non-Blocking Code                |
+| ---------------------------- | -------------------------------- |
+| Waits for a task to finish   | Doesn't wait for the task        |
+| Uses synchronous operations  | Uses asynchronous operations     |
+| Slows down the application   | Keeps the application responsive |
+| Example: `fs.readFileSync()` | Example: `fs.readFile()`         |
+
+### Blocking Example
+
+```javascript
+const fs = require("fs");
+
+const data = fs.readFileSync("test.txt", "utf-8");
+console.log(data);
+
+console.log("Program End");
+```
+
+`"Program End"` is printed **after** the file is read.
+
+### Non-Blocking Example
+
+```javascript
+const fs = require("fs");
+
+fs.readFile("test.txt", "utf-8", (err, data) => {
+    console.log(data);
+});
+
+console.log("Program End");
+```
+
+`"Program End"` is printed **before** the file content.
+
+---
+
+# Real-Life Examples
+
+### Synchronous Example 🍔
+
+Ordering food at a small stall:
+
+1. Customer 1 orders.
+2. Chef finishes Customer 1's order.
+3. Only then Customer 2's order starts.
+
+Everyone waits.
+
+### Asynchronous Example 🍕
+
+Ordering from an online food app:
+
+1. You place the order.
+2. You continue working or watching a movie.
+3. The food arrives later.
+
+You don't wait idle.
+
+---
+
+# Why Node.js Uses Asynchronous Architecture?
+
+Node.js uses asynchronous, non-blocking I/O because it:
+
+* Handles many users at the same time.
+* Doesn't block the main thread during file, database, or network operations.
+* Improves server performance and scalability.
+* Makes efficient use of system resources.
+
+This is one of the main reasons Node.js is popular for web servers and APIs.
+
+---
+
+# Interview Questions
+
+### 1. What is synchronous programming?
+
+Tasks execute one by one, and each task waits for the previous one to finish.
+
+### 2. What is asynchronous programming?
+
+Tasks can continue without waiting for long-running operations to complete.
+
+### 3. What is blocking code?
+
+Code that stops further execution until the current operation finishes.
+
+### 4. What is non-blocking code?
+
+Code that starts an operation and continues executing other code while waiting for the result.
+
+### 5. Why does Node.js prefer asynchronous programming?
+
+To improve performance, handle many concurrent requests, and avoid blocking the event loop.
+
+### 6. Give an example of a synchronous method in the `fs` module.
+
+`fs.readFileSync()` or `fs.writeFileSync()`.
+
+### 7. Give an example of an asynchronous method in the `fs` module.
+
+`fs.readFile()` or `fs.writeFile()`.
+
+### 8. Is Node.js single-threaded?
+
+Yes, JavaScript code runs on a single main thread (the event loop), but Node.js uses background worker threads for many I/O operations, allowing asynchronous behavior.
+
+### 9. Which approach is better for production applications?
+
+Asynchronous programming, because it is non-blocking and scales better.
+
+### 10. What is the Event Loop?
+
+The Event Loop is the mechanism in Node.js that manages asynchronous operations and executes their callbacks when they are ready, enabling non-blocking execution.

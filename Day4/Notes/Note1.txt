@@ -1,0 +1,184 @@
+# Loading HTML File in Node.js (Using FS Module)
+
+## 1. Why do we need to load an HTML file?
+
+Instead of writing HTML directly inside JavaScript (`res.write()`), we keep HTML in a separate `.html` file.
+
+### Benefits:
+
+* ✅ Clean and readable code
+* ✅ Easy to maintain
+* ✅ Frontend and backend remain separate
+* ✅ HTML can be edited without changing server code
+* ✅ Reusable pages
+
+**Real-world example:**
+A website like Amazon stores its home page in HTML files. The Node.js server reads those files and sends them to the browser.
+
+---
+
+# 2. Create a Server
+
+```js
+const http = require('http');
+const fs = require('fs');
+
+http.createServer((req, res) => {
+
+    fs.readFile('index.html', (err, data) => {
+        if (err) {
+            res.writeHead(500, {'Content-Type':'text/plain'});
+            res.end("Error loading file");
+        } else {
+            res.writeHead(200, {'Content-Type':'text/html'});
+            res.write(data);
+            res.end();
+        }
+    });
+
+}).listen(3000);
+
+console.log("Server running at http://localhost:3000");
+```
+
+---
+
+# 3. Make HTML File
+
+Create **index.html**
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Node.js FS Module</title>
+</head>
+<body>
+    <h1>Welcome to Backend Learning 🚀</h1>
+    <p>This HTML page is loaded using the FS module.</p>
+</body>
+</html>
+```
+
+---
+
+# 4. Load HTML File with FS Module
+
+`fs.readFile()` reads the HTML file from your computer.
+
+```js
+fs.readFile('index.html', (err, data) => {
+
+    if (err) {
+        console.log(err);
+    } else {
+        res.write(data);
+        res.end();
+    }
+
+});
+```
+
+### Syntax
+
+```js
+fs.readFile(path, callback);
+```
+
+* **path** → File name (`index.html`)
+* **err** → Error if file is not found
+* **data** → File contents
+
+---
+
+# 5. Check Output
+
+Run:
+
+```bash
+node server.js
+```
+
+or
+
+```bash
+nodemon server.js
+```
+
+Open:
+
+```
+http://localhost:3000
+```
+
+Output:
+
+```
+Welcome to Backend Learning 🚀
+This HTML page is loaded using the FS module.
+```
+
+---
+
+# Folder Structure
+
+```
+Backend/
+│
+├── server.js
+└── index.html
+```
+
+---
+
+# Interview Questions
+
+### 1. Why do we use the FS module?
+
+**Answer:** To read, write, update, delete, and manage files in Node.js.
+
+---
+
+### 2. Why load an HTML file instead of writing HTML in JavaScript?
+
+**Answer:** It keeps code clean, improves maintainability, and separates frontend from backend.
+
+---
+
+### 3. Which function reads a file in Node.js?
+
+**Answer:** `fs.readFile()`.
+
+---
+
+### 4. What does `fs.readFile()` return in its callback?
+
+**Answer:** Two parameters:
+
+* `err` → Error object (if any)
+* `data` → File content
+
+---
+
+### 5. Why do we use `Content-Type: text/html`?
+
+**Answer:** To tell the browser that the response is HTML, so it renders the page correctly.
+
+---
+
+### 6. What happens if the HTML file doesn't exist?
+
+**Answer:** `fs.readFile()` returns an error (`err`), and the server should handle it gracefully (e.g., send a 500 error response).
+
+---
+
+## Quick Revision
+
+* `http` module → Creates the server.
+* `fs` module → Reads the HTML file.
+* `index.html` → Contains the webpage.
+* `fs.readFile()` → Loads the HTML.
+* `res.writeHead(200, {'Content-Type':'text/html'})` → Sends HTML response.
+* Open `http://localhost:3000` to see the webpage.
+
+This is one of the most common beginner Node.js interview topics and is frequently asked in backend interviews.
