@@ -1,20 +1,22 @@
-const express = require("express");
-const path = require("path");
-const home = require("./pages/home"); // adjust the path if needed
-const { default: about } = require("../pages/about");
+import express from 'express';
+import home from '../pages/home.js';
+import about from '../pages/about.js';
+import contact from '../pages/contact.js';
 
 const app = express();
 
-app.use(express.static(__dirname));
-
-app.get("/", (req, res) => {
-    res.send(home);
+app.get('/', (req, res) => {
+  res.send(home());
 });
 
-app.get("/about", (req, res) => {
-    res.send(about);
+app.get('/about', (req, res) => {
+  res.send(about());
+});
+
+app.get('/contact', (req, res) => {
+  res.send(contact());
 });
 
 app.listen(3000, () => {
-    console.log("Server running on http://localhost:3000");
+  console.log('Server running on http://localhost:3000');
 });
