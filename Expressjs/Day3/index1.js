@@ -1,9 +1,10 @@
 import express from "express";
 import about from "../pages/about.js";
 import login from "../pages/login.js";
+import home from "../pages/home.js";
 const app = express();
 app.get("/",(req, res)=>{
-    res.send("<h1>home page </h1>");
+    res.send(home());
 });
 app.get("/about",(req, res)=>{
     res.send(about());

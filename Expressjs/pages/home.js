@@ -1,3 +1,3 @@
 export default function home(){
-    return "<h1>Home page</h1>";
+    return "<h1>Home page</h1><a href='/about'>go to about</a>";
 }
