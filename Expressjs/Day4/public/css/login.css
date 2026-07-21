@@ -1,0 +1,158 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f172a, #1e293b, #0f172a);
+    overflow: hidden;
+}
+
+/* Animated Background */
+
+body::before,
+body::after {
+    content: "";
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    filter: blur(130px);
+}
+
+body::before {
+    background: #3b82f6;
+    top: -100px;
+    left: -100px;
+    animation: move1 7s infinite alternate;
+}
+
+body::after {
+    background: #9333ea;
+    bottom: -100px;
+    right: -100px;
+    animation: move2 7s infinite alternate;
+}
+
+@keyframes move1 {
+    to {
+        transform: translate(120px, 100px);
+    }
+}
+
+@keyframes move2 {
+    to {
+        transform: translate(-120px, -100px);
+    }
+}
+
+.container {
+    position: relative;
+    z-index: 10;
+}
+
+.login-box {
+    width: 380px;
+    padding: 40px;
+    background: rgba(255, 255, 255, .08);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, .15);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, .3);
+}
+
+.login-box h1 {
+    color: white;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.login-box p {
+    text-align: center;
+    color: #cbd5e1;
+    margin-bottom: 25px;
+}
+
+.input-box {
+    margin: 18px 0;
+}
+
+.input-box input {
+    width: 100%;
+    padding: 14px 18px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, .1);
+    color: white;
+    font-size: 16px;
+}
+
+.input-box input::placeholder {
+    color: #cbd5e1;
+}
+
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    color: white;
+    margin: 15px 0 25px;
+}
+
+.options a {
+    color: #60a5fa;
+    text-decoration: none;
+}
+
+.options a:hover {
+    text-decoration: underline;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background: #2563eb;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+button:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+}
+
+.signup {
+    margin-top: 20px;
+    text-align: center;
+    color: #cbd5e1;
+}
+
+.signup a {
+    color: #60a5fa;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.signup a:hover {
+    text-decoration: underline;
+}
+
+@media(max-width:450px) {
+
+    .login-box {
+        width: 90vw;
+        padding: 30px;
+    }
+}
